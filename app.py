@@ -50,22 +50,30 @@ if page == "Accueil":
 elif page == "Analyse Météo":
     st.header("🌦️ Influence des conditions Météo")
     
-    # Top 5 etats
-    top_5_states = ['CA', 'GA', 'TX', 'NC', 'FL'] 
+    # 1. Création du dictionnaire de correspondance
+    state_mapping = {
+        "California": "CA",
+        "Georgia": "GA",
+        "Texas": "TX",
+        "North Carolina": "NC",
+        "Florida": "FL"
+    }
     
-    # 2. Créer le filtre limité à ces 5 choix
-    st.write("### Sélectionner un État (Top 5 disposant de données météo)")
-    selected_state = st.selectbox("Choisir l'État à analyser :", top_5_states)
+    # 2. Le selectbox affiche les Noms Complets (les clés du dictionnaire)
+    st.write("### Sélectionner un État")
+    selected_full_name = st.selectbox(
+        "Choisir l'État à analyser :", 
+        options=list(state_mapping.keys())
+    )
     
-    # 3. Filtrer le dataframe
-    df_filtered = df[df['STATE'] == selected_state]
+    # 3. On récupère l'abréviation correspondante pour filtrer le DataFrame
+    selected_abbrev = state_mapping[selected_full_name]
+    df_filtered = df[df['STATE'] == selected_abbrev]
     
-    # Information sur l'État sélectionné
-    st.info(f"Affichage des données météo pour : **{selected_state}**")
-    st.write(f"Nombre d'incendies analysés dans cet État : {len(df_filtered)}")
-    st.divider()
-
-    # --- La suite de vos graphiques avec df_filtered ---
+    # Affichage dynamique du nom
+    st.info(f"Affichage des données météo pour : **{selected_full_name}**")
+    st.write(f"Nombre d'incendies analysés : {len(df_filtered)}")
+    st.divider()-
     col1, col2 = st.columns(2)
 
     with col1:
