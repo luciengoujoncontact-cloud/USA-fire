@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+plotly
+seaborn
+matplotlib
+gdown
+openmeteo-requests
+requests-cache
+retry-requests
