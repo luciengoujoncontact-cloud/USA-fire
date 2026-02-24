@@ -43,13 +43,49 @@ if page == "Accueil":
     if st.checkbox("Afficher un aperçu des données"):
         st.dataframe(df.head(10))
 
-elif page == "Exploration des données":
-    st.header("🔍 Exploration et Qualité des données")
-    st.write("Cette section présente l'analyse initiale des colonnes et les taux de valeurs manquantes.")
-    
-    # Ici vous pourrez ajouter vos fonctions d'analyse de colonnes
-    # Exemple : st.write(df.isna().mean() * 100)
+# Données meteo - Lucien
+elif page == "Analyse Météo":
+    st.header("Influence des conditions Météo")
+    st.write("Analyse de la corrélation entre la température, le vent et la sévérité des incendies.")
 
-elif page == "Visualisations":
-    st.header("📊 Graphiques et Cartographies")
-    st.write("Analyse temporelle et géographique des incendies.")
+    # --- Graphique 1 : Histogramme Température ---
+    st.subheader("Distribution des incendies selon la température")
+    fig1, ax1 = plt.subplots(figsize=(10, 6))
+    sns.histplot(df['temp_max'], bins=30, kde=True, color='orange', edgecolor='black', ax=ax1)
+    ax1.set_title('Fréquence des incendies selon la Température Maximale')
+    ax1.set_xlabel('Température Maximale (°C)')
+    ax1.set_ylabel('Nombre d\'incendies')
+    st.pyplot(fig1)
+
+    # --- Graphique 2 : Hexbin Densité (Temp vs Vent) ---
+    st.subheader("Densité des feux : Température vs Vent")
+    fig2, ax2 = plt.subplots(figsize=(10, 6))
+    hb2 = ax2.hexbin(df['temp_max'], df['vent_max'], gridsize=30, cmap='YlOrRd', mincnt=1)
+    cb2 = fig2.colorbar(hb2, ax=ax2)
+    cb2.set_label('Densité des feux')
+    ax2.set_title('Densité des feux : Température vs Vent')
+    ax2.set_xlabel('Température Maximale (°C)')
+    ax2.set_ylabel('Vitesse du vent (km/h)')
+    st.pyplot(fig2)
+
+    # --- Graphique 3 : Hexbin Sévérité (Taille Moyenne) ---
+    st.subheader("Sévérité des feux : Température vs Vent")
+    
+    # Nettoyage rapide pour ce graphique spécifique
+    df_plot = df.dropna(subset=['temp_max', 'vent_max', 'FIRE_SIZE_HECT'])
+    
+    fig3, ax3 = plt.subplots(figsize=(10, 6))
+    hb3 = ax3.hexbin(df_plot['temp_max'],
+                    df_plot['vent_max'],
+                    C=df_plot['FIRE_SIZE_HECT'],
+                    reduce_C_function=np.mean,
+                    gridsize=30,
+                    cmap='YlOrBr',
+                    mincnt=1)
+    cb3 = fig3.colorbar(hb3, ax=ax3)
+    cb3.set_label('Taille moyenne des feux (hectares)')
+    ax3.set_title('Sévérité des feux selon les conditions météo')
+    ax3.set_xlabel('Température Maximale (°C)')
+    ax3.set_ylabel('Vitesse du vent (km/h)')
+    st.pyplot(fig3)
+
