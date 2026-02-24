@@ -73,7 +73,7 @@ elif page == "Analyse Météo":
     # Affichage dynamique du nom
     st.info(f"Affichage des données météo pour : **{selected_full_name}**")
     st.write(f"Nombre d'incendies analysés : {len(df_filtered)}")
-    st.divider()-
+    st.divider()
     col1, col2 = st.columns(2)
 
     with col1:
@@ -91,7 +91,7 @@ elif page == "Analyse Météo":
         fig2.colorbar(hb2, ax=ax2, label='Densité des feux')
         st.pyplot(fig2)
 
-    st.subheader("🔥 Sévérité : Température vs Vent (Taille moyenne)")
+    st.subheader("Sévérité : Température vs Vent (Taille moyenne)")
     df_plot = df_filtered.dropna(subset=['temp_max', 'vent_max', 'FIRE_SIZE_HECT'])
     
     fig3, ax3 = plt.subplots(figsize=(12, 6))
