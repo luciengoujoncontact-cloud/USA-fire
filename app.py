@@ -148,7 +148,7 @@ elif page == "Analyse Météo":
         st.pyplot(fig3)
 
 elif page == "Analyse Temporelle":
-    st.write("### Bienvenue dans le projet d'analyse des Wildfires")
+    st.header("Autres Visualisations")
 
 elif page == "Visualisations":
     st.header("Autres Visualisations")
