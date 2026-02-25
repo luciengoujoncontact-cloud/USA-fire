@@ -37,7 +37,7 @@ df = load_data()
 st.title("🔥 Analyse des Incendies aux USA (1992-2015)")
 
 # Barre latérale pour la navigation
-page = st.sidebar.radio("Navigation", ["Accueil", "Analyse Temporelle", "Analyse par Localisation", "Analyse Météo", "Analyse de Sévérité"])
+page = st.sidebar.radio("Navigation", ["Accueil", "Analyse Temporelle", "Analyse de Sévérité", "Analyse par Localisation", "Analyse Météo", "Conclusion"])
 
 # --- PAGE ACCUEIL ---
 if page == "Accueil":
