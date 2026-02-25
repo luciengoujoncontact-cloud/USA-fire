@@ -311,29 +311,31 @@ elif page == "🗺️ Analyse de par Localisation":
     - La région la plus touchée est **{top_region['REGION']}** avec **{int(top_region['FIRE_SIZE_HECT']):,} hectares brûlés**.
     - Les autres régions ont des surfaces brûlées beaucoup moins importantes, ce qui montre la concentration géographique des feux.
     """)
-
+    
     # 4️⃣ Durée moyenne des feux par État
-        if pd.api.types.is_timedelta64_dtype(df['FIRE_DURATION']):
-            df['FIRE_DURATION_DAYS'] = df['FIRE_DURATION'].dt.days
-        else:
-            df['FIRE_DURATION_DAYS'] = np.nan
-
-        df_state_duration = df.groupby('STATE', as_index=False)['FIRE_DURATION_DAYS'].mean()
-        fig = px.choropleth(
-            df_state_duration,
-            locations='STATE',
-            locationmode='USA-states',
-            color='FIRE_DURATION_DAYS',
-            scope='usa',
-            color_continuous_scale='YlOrBr',
-            labels={'FIRE_DURATION_DAYS': 'Durée moyenne (jours)'},
-            title='Durée moyenne des feux par État'
+    if pd.api.types.is_timedelta64_dtype(df['FIRE_DURATION']):
+        df['FIRE_DURATION_DAYS'] = df['FIRE_DURATION'].dt.days
+    else:
+        df['FIRE_DURATION_DAYS'] = np.nan
+        
+    df_state_duration = df.groupby('STATE', as_index=False)['FIRE_DURATION_DAYS'].mean()
+    fig = px.choropleth(
+        df_state_duration,
+        locations='STATE',
+        locationmode='USA-states',
+        color='FIRE_DURATION_DAYS',
+        scope='usa',
+        color_continuous_scale='YlOrBr',
+        labels={'FIRE_DURATION_DAYS': 'Durée moyenne (jours)'},
+        title='Durée moyenne des feux par État'
+    )
+    st.plotly_chart(fig)
+    st.markdown("""
     ### 📌 Lecture du graphique
     - Chaque État est coloré selon la durée moyenne des feux.
-    - Permet d’identifier les États où les incendies sont non seulement fréquents mais aussi prolongés.
-    - Ces informations sont essentielles pour la planification des ressources et la prévention.
+    - Permet d’identifier les États où les incendies sont fréquents et prolongés.
+    - Ces informations sont utiles pour la planification et la prévention.
     """)
-
 elif page == "Visualisations":
     st.header("Autres Visualisations")
 
