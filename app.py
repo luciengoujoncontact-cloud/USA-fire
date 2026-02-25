@@ -313,20 +313,21 @@ elif page == "🗺️ Analyse de par Localisation":
     """)
 
     # 4️⃣ Durée moyenne des feux par État
-    df['FIRE_DURATION_DAYS'] = df['FIRE_DURATION'].dt.days
-    df_state_duration = df.groupby('STATE', as_index=False)['FIRE_DURATION_DAYS'].mean()
-    fig = px.choropleth(
-        df_state_duration,
-        locations='STATE',
-        locationmode='USA-states',
-        color='FIRE_DURATION_DAYS',
-        scope='usa',
-        color_continuous_scale='YlOrBr',
-        labels={'FIRE_DURATION_DAYS': 'Durée moyenne (jours)'},
-        title='Durée moyenne des feux par État'
-    )
-    st.plotly_chart(fig)
-    st.markdown("""
+        if pd.api.types.is_timedelta64_dtype(df['FIRE_DURATION']):
+            df['FIRE_DURATION_DAYS'] = df['FIRE_DURATION'].dt.days
+        else:
+            df['FIRE_DURATION_DAYS'] = np.nan
+
+        df_state_duration = df.groupby('STATE', as_index=False)['FIRE_DURATION_DAYS'].mean()
+        fig = px.choropleth(
+            df_state_duration,
+            locations='STATE',
+            locationmode='USA-states',
+            color='FIRE_DURATION_DAYS',
+            scope='usa',
+            color_continuous_scale='YlOrBr',
+            labels={'FIRE_DURATION_DAYS': 'Durée moyenne (jours)'},
+            title='Durée moyenne des feux par État'
     ### 📌 Lecture du graphique
     - Chaque État est coloré selon la durée moyenne des feux.
     - Permet d’identifier les États où les incendies sont non seulement fréquents mais aussi prolongés.
