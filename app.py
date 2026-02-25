@@ -37,7 +37,7 @@ df = load_data()
 st.title("🔥 Analyse des Incendies aux USA (1992-2015)")
 
 # Barre latérale pour la navigation
-page = st.sidebar.radio("Navigation", ["Accueil", "Analyse Temporelle", "Analyse Météo", "Analyse de Sévérité"])
+page = st.sidebar.radio("Navigation", ["Accueil", "Analyse Temporelle", "Analyse par Localisation", "Analyse Météo", "Analyse de Sévérité"])
 
 # --- PAGE ACCUEIL ---
 if page == "Accueil":
@@ -394,6 +394,7 @@ elif page == "Analyse par Localisation":
     """)
 
     # 2️⃣ Cause principale des feux par État
+    c = dict(zip(df["STAT_CAUSE_DESCR"].unique(), px.colors.qualitative.T10))
     df_region = df.groupby(['STATE', 'STAT_CAUSE_DESCR'], as_index=False).size().rename(columns={'size':'count'})
     df_major_cause = df_region.loc[df_region.groupby('STATE')['count'].idxmax()]
     fig = px.choropleth(
@@ -402,6 +403,7 @@ elif page == "Analyse par Localisation":
         locationmode='USA-states',
         color='STAT_CAUSE_DESCR',
         scope='usa',
+        color_discrete_map=c
         title='Cause principale des feux par États'
     )
     st.plotly_chart(fig)
