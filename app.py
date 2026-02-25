@@ -450,7 +450,7 @@ elif page == "Analyse par Localisation":
         labels={'FIRE_DURATION_DAYS': 'Durée moyenne (jours)'},
         title='Durée moyenne des feux par État'
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig)
     st.markdown("""
     ### 📌 Lecture du graphique
     - Chaque État est coloré selon la durée moyenne des feux.
