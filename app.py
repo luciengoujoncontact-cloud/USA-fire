@@ -147,5 +147,8 @@ elif page == "Analyse Météo":
         plt.tight_layout()
         st.pyplot(fig3)
 
+elif page == "Analyse Temporelle":
 elif page == "Visualisations":
     st.header("Autres Visualisations")
+
+
