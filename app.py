@@ -149,6 +149,57 @@ elif page == "Analyse Météo":
 
 elif page == "Analyse Temporelle":
     st.header("Autres Visualisations")
+elif page == "Sévérité":
+    st.write("### Analyse de la sévérité des feux")
+
+    st.subheader("Aperçu du dataset")
+    st.dataframe(df.head(10))
+
+    # 1️⃣ Distribution de la taille des feux (échelle log)
+    st.subheader("Distribution de la taille des feux (échelle log)")
+    fig = plt.figure(figsize=(10,5))
+    sns.histplot(np.log10(df["FIRE_SIZE_HECT"] + 1), bins=50, color='orange')
+    plt.xlabel("Log10(FIRE_SIZE_HECT + 1)")
+    plt.ylabel("Nombre de feux")
+    st.pyplot(fig)
+
+    # 2️⃣ Nombre de feux par classe (A à G)
+    st.subheader("Nombre de feux par classe (FIRE_SIZE_CLASS)")
+    fig = plt.figure(figsize=(8,5))
+    df['FIRE_SIZE_CLASS'].value_counts().sort_index().plot(kind='bar', color='green')
+    plt.xlabel("Classe de taille (A à G)")
+    plt.ylabel("Nombre de feux")
+    plt.title("Répartition des classes de feux")
+    st.pyplot(fig)
+
+    # 3️⃣ Surface totale brûlée par classe de feu
+    st.subheader("Surface totale brûlée par classe de feu")
+    fig = plt.figure(figsize=(8,5))
+    df.groupby('FIRE_SIZE_CLASS')['FIRE_SIZE_HECT'].sum().sort_index().plot(kind='bar', color='red')
+    plt.xlabel("Classe de taille (A à G)")
+    plt.ylabel("Total hectares brûlés")
+    plt.title("Surface totale brûlée par classe de feu")
+    st.pyplot(fig)
+
+    # 4️⃣ Tendance de la sévérité des feux par année
+    st.subheader("Tendance de la sévérité des feux par année (médiane FIRE_SIZE_HECT)")
+    fig = plt.figure(figsize=(12,6))
+    sns.barplot(data=df, x='FIRE_YEAR', y='FIRE_SIZE_HECT', estimator='median', ci=None, color='purple')
+    plt.xlabel("Année")
+    plt.ylabel("Taille du feu (hectares)")
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
+
+    # 5️⃣ Distribution de la taille des feux par cause
+    st.subheader("Distribution de la taille des feux par cause")
+    fig = plt.figure(figsize=(12,6))
+    sns.boxplot(x='STAT_CAUSE_DESCR', y='FIRE_SIZE_HECT', data=df)
+    plt.yscale('log')
+    plt.xticks(rotation=45, ha='right')
+    plt.xlabel("Cause du feu")
+    plt.ylabel("Taille du feu (hectares, échelle log)")
+    plt.title("Distribution de la taille des feux par cause")
+    st.pyplot(fig)
 
 elif page == "Visualisations":
     st.header("Autres Visualisations")
