@@ -93,7 +93,7 @@ elif page == "Analyse Météo":
         st.metric("Vent Moyen", f"{df_filtered['vent_max'].mean():.1f} km/h")
     with col_kpi3:
         # Précipitations moyennes (souvent proche de 0 lors des feux)
-        st.metric("Précip. Moyennes", f"{df_filtered['precip'].mean():.2f} mm")
+        st.metric("Précip. Moyennes", f"{df_filtered['pluie_mm'].mean():.2f} mm")
     with col_kpi4:
         st.metric("Total Incendies", f"{len(df_filtered):,}")
 
@@ -111,7 +111,7 @@ elif page == "Analyse Météo":
         
         # Ajout d'une analyse sur la pluie (Précipitations)
         ax1_twin = ax1.twinx()
-        sns.kdeplot(df_filtered['precip'], color='blue', fill=True, ax=ax1_twin, label='Précipitations')
+        sns.kdeplot(df_filtered['pluie_mm'], color='blue', fill=True, ax=ax1_twin, label='Précipitations')
         ax1_twin.set_ylabel('Densité de probabilité (Pluie)')
         
         ax1.set_xlabel('Température Maximale (°C)')
