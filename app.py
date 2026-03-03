@@ -173,9 +173,11 @@ elif page == "Analyse Météo":
         plt.tight_layout()
         st.pyplot(fig3)
 
+# --- PAGE ANALYSE SEVERITE (ISMAIL) OPTIMISÉE ---
 elif page == "Analyse de Sévérité":
     import plotly.io as pio
     import streamlit.components.v1 as components
+    import plotly.express as px
 
     # --- Graphiques et affichage rapide via HTML pour accélérer ---
     def st_plotly_fast(fig, height=500):
@@ -208,9 +210,22 @@ elif page == "Analyse de Sévérité":
         st.subheader("Nombre de feux par classe")
         df_class = df['FIRE_SIZE_CLASS'].value_counts().sort_index().reset_index()
         df_class.columns = ['FIRE_SIZE_CLASS','count']
-        fig2 = px.bar(df_class, x='FIRE_SIZE_CLASS', y='count',
-                      title="Nombre de feux par classe (A à G)",
-                      color_discrete_sequence=['#1F77B4'])
+        fig2 = px.bar(
+            df_class,
+            x='FIRE_SIZE_CLASS',
+            y='count',
+            title="Nombre de feux par classe (A à G)",
+            color='FIRE_SIZE_CLASS',
+            color_discrete_map={
+                'A':'#FFA500',  # orange clair
+                'B':'#FF8C00',  # orange
+                'C':'#FF4500',  # orange foncé
+                'D':'#FF0000',  # rouge
+                'E':'#DC143C',  # rouge vif
+                'F':'#B22222',  # rouge foncé
+                'G':'#8B0000'   # rouge très foncé
+            }
+        )
         st_plotly_fast(fig2, height=400)
         st.markdown("""
         ### 📌 Lecture du graphique
@@ -221,9 +236,22 @@ elif page == "Analyse de Sévérité":
     with col2:
         st.subheader("Surface totale brûlée par classe")
         df_sum = df.groupby('FIRE_SIZE_CLASS')['FIRE_SIZE_HECT'].sum().sort_index().reset_index()
-        fig3 = px.bar(df_sum, x='FIRE_SIZE_CLASS', y='FIRE_SIZE_HECT',
-                      title="Surface totale brûlée par classe",
-                      color_discrete_sequence=['#D62728'])
+        fig3 = px.bar(
+            df_sum,
+            x='FIRE_SIZE_CLASS',
+            y='FIRE_SIZE_HECT',
+            title="Surface totale brûlée par classe",
+            color='FIRE_SIZE_CLASS',
+            color_discrete_map={
+                'A':'#FFA500',
+                'B':'#FF8C00',
+                'C':'#FF4500',
+                'D':'#FF0000',
+                'E':'#DC143C',
+                'F':'#B22222',
+                'G':'#8B0000'
+            }
+        )
         st_plotly_fast(fig3, height=400)
         st.markdown("""
         ### 📌 Lecture du graphique
@@ -234,11 +262,15 @@ elif page == "Analyse de Sévérité":
     # 3️⃣ Tendance de la sévérité par année
     st.subheader("Tendance annuelle de la taille médiane des feux")
     df_year = df.groupby('FIRE_YEAR')['FIRE_SIZE_HECT'].median().reset_index()
-    fig4 = px.line(df_year, x='FIRE_YEAR', y='FIRE_SIZE_HECT',
-                   title="Tendance annuelle de la taille médiane des feux",
-                   markers=True,
-                   line_shape='linear',
-                   color_discrete_sequence=['#9467BD'])
+    fig4 = px.line(
+        df_year,
+        x='FIRE_YEAR',
+        y='FIRE_SIZE_HECT',
+        title="Tendance annuelle de la taille médiane des feux",
+        markers=True,
+        line_shape='linear',
+        color_discrete_sequence=['#B22222']  # rouge foncé pour contraster
+    )
     st_plotly_fast(fig4, height=400)
     st.markdown("""
     ### 📌 Lecture du graphique
@@ -248,15 +280,24 @@ elif page == "Analyse de Sévérité":
 
     # 4️⃣ Distribution des causes par taille de feu
     st.subheader("Distribution des causes par taille de feu")
-    fig5 = px.box(df, x='STAT_CAUSE_DESCR', y='FIRE_SIZE_HECT', log_y=True,
-                  title="Distribution de la taille des feux par cause",
-                  color_discrete_sequence=['#2CA02C'])
+    fig5 = px.box(
+        df,
+        x='STAT_CAUSE_DESCR',
+        y='FIRE_SIZE_HECT',
+        log_y=True,
+        title="Distribution de la taille des feux par cause",
+        color='STAT_CAUSE_DESCR',
+        color_discrete_map={
+            c:'#FF7F0E' for c in df['STAT_CAUSE_DESCR'].unique()  # orange vif pour toutes les causes
+        }
+    )
     st_plotly_fast(fig5, height=450)
     st.markdown("""
     ### 📌 Lecture du graphique
     - Pour la plupart des incendies, la médiane est similaire quel que soit le type de cause.
     - Quelques feux très grands se produisent souvent suite à des orages ou négligences.
     """)
+      
   
 # --- PAGE ANALYSE TEMPORELLE (SOPHIE) ---
 elif page == "Analyse Temporelle":
