@@ -184,20 +184,24 @@ elif page == "Analyse de Sévérité":
         components.html(pio.to_html(fig, include_plotlyjs='cdn', full_html=False), height=height)
 
     # --- Explication des classes de feux ---
-    st.markdown("""
-    #### 📌 Classement des feux par taille
-    Les feux sont classés de A à G selon la surface finale brûlée.  
-    Pour rendre les petites surfaces plus compréhensibles, nous utilisons **m²** pour les deux premières classes, et **hectares** pour les autres :  
-
-    - **A :** 0 – 1 000 m² (~0 – 0,1 ha)  
-    - **B :** 1 001 – 40 000 m² (~0,1 – 4 ha)  
-    - **C :** 4 – 40 ha  
-    - **D :** 40 – 120 ha  
-    - **E :** 120 – 400 ha  
-    - **F :** 400 – 2 000 ha  
-    - **G :** > 2 000 ha
-    """)
-    
+    st.markdown("#### 📌 Classement des feux par taille")
+    colA, colB = st.columns(2)
+    with colA:
+        st.markdown("""
+        **Classes A à D**  
+        - **A :** 0 – 1 000 m² (~0 – 0,1 ha)  
+        - **B :** 1 001 – 40 000 m² (~0,1 – 4 ha)  
+        - **C :** 4 – 40 ha  
+        - **D :** 40 – 120 ha
+        """)
+    with colB:
+        st.markdown("""
+        **Classes E à G**  
+        - **E :** 120 – 400 ha  
+        - **F :** 400 – 2 000 ha  
+        - **G :** > 2 000 ha
+        """)
+        
     # --- Mise en page côte à côte pour les deux premiers graphes ---
     col1, col2 = st.columns(2)
 
