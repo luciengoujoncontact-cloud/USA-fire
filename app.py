@@ -106,15 +106,21 @@ elif page == "Analyse Météo":
         st.subheader("1. Fréquence selon la Température et Pluie")
         fig1, ax1 = plt.subplots(figsize=(10, 6))
         
-        # On garde l'histogramme de température
-        sns.histplot(df_filtered['temp_max'], bins=30, kde=True, color='orange', label='Température', ax=ax1)
-        
-        # Ajout d'une analyse sur la pluie (Précipitations)
+        # Axe 1 : Température (Histogramme orange)
+        sns.histplot(df_filtered['temp_max'], bins=30, kde=True, color='orange', label='Température (°C)', ax=ax1)
+        ax1.set_xlabel('Température Maximale (°C)')
+        ax1.set_ylabel('Nombre d\'incendies')
+
+        # Axe 2 : Pluie (Courbe bleue)
         ax1_twin = ax1.twinx()
-        sns.kdeplot(df_filtered['pluie_mm'], color='blue', fill=True, ax=ax1_twin, label='Précipitations')
+        sns.kdeplot(df_filtered['pluie_mm'], color='blue', fill=True, ax=ax1_twin, label='Précipitations (mm)')
         ax1_twin.set_ylabel('Densité de probabilité (Pluie)')
         
-        ax1.set_xlabel('Température Maximale (°C)')
+        # --- RÉCUPÉRATION ET AFFICHAGE DE LA LÉGENDE UNIQUE ---
+        lines_1, labels_1 = ax1.get_legend_handles_labels()
+        lines_2, labels_2 = ax1_twin.get_legend_handles_labels()
+        ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc='upper right')
+        
         plt.tight_layout()
         st.pyplot(fig1)
     
@@ -166,48 +172,6 @@ elif page == "Analyse Météo":
         ax3.set_ylabel('Vent (km/h)')
         plt.tight_layout()
         st.pyplot(fig3)
-
-    # --- LIGNE 2 : HEXBINS CÔTE À CÔTE ---
-    st.subheader("2. Le rôle  du vent : Densité vs Taille")
-    
-    st.warning("""
-    **Analyse :** Si la majorité des incendies se déclarent par temps calme (peu de vent), 
-    le vent reste un facteur clé de dangerosité. On observe que les incendies les plus vastes 
-    coïncident souvent avec des rafales plus importantes, car le vent permet une propagation 
-    rapide et incontrôlable des flammes.
-    """)
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        # Graphique Densité
-        fig2, ax2 = plt.subplots(figsize=(10, 7))
-        hb2 = ax2.hexbin(df_filtered['temp_max'], df_filtered['vent_max'], gridsize=25, cmap='YlOrRd', mincnt=1)
-        fig2.colorbar(hb2, ax=ax2, label='Nombre de feux')
-        ax2.set_title('Densité vs vent et température')
-        ax2.set_xlabel('Température (°C)')
-        ax2.set_ylabel('Vent (km/h)')
-        plt.tight_layout()
-        st.pyplot(fig2)
-
-    with col2:
-        # Graphique Sévérité
-        df_plot = df_filtered.dropna(subset=['FIRE_SIZE_HECT'])
-        fig3, ax3 = plt.subplots(figsize=(10, 7))
-        hb3 = ax3.hexbin(df_plot['temp_max'],
-                        df_plot['vent_max'],
-                        C=df_plot['FIRE_SIZE_HECT'],
-                        reduce_C_function=np.mean,
-                        gridsize=25,
-                        cmap='YlOrBr',
-                        mincnt=1)
-        fig3.colorbar(hb3, ax=ax3, label='Taille moy. (ha)')
-        ax3.set_title('Taille vs vent et température')
-        ax3.set_xlabel('Température (°C)')
-        ax3.set_ylabel('Vent (km/h)')
-        plt.tight_layout()
-        st.pyplot(fig3)
-
 
 # --- PAGE ANALYSE SEVERITE (ISMAIL) ---
 elif page == "Analyse de Sévérité":
