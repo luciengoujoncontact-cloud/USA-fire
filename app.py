@@ -75,38 +75,97 @@ elif page == "Analyse Météo":
         options=list(state_mapping.keys())
     )
     
-    # Logique du filtre global
+    # Logique du filtre
     selected_abbrev = state_mapping[selected_full_name]
     if selected_abbrev == "ALL":
-        # On ne garde que les lignes qui ont des données météo pour que les graphs soient cohérents
-        df_filtered = df.dropna(subset=['temp_max', 'vent_max'])
-        st.info("Affichage des statistiques globales (basé sur les 5 États du Top)")
+        df_filtered = df.dropna(subset=['temp_max', 'vent_max', 'precip'])
     else:
         df_filtered = df[df['STATE'] == selected_abbrev]
-        st.info(f"Analyse en cours pour : **{selected_full_name}**")
+
+    # --- NOUVELLE SECTION : KPI ---
+    st.write(f"### Indicateurs clés : {selected_full_name}")
+    col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
     
+    with col_kpi1:
+        st.metric("Température Moy.", f"{df_filtered['temp_max'].mean():.1f} °C")
+    with col_kpi2:
+        # On calcule la moyenne des vents
+        st.metric("Vent Moyen", f"{df_filtered['vent_max'].mean():.1f} km/h")
+    with col_kpi3:
+        # Précipitations moyennes (souvent proche de 0 lors des feux)
+        st.metric("Précip. Moyennes", f"{df_filtered['precip'].mean():.2f} mm")
+    with col_kpi4:
+        st.metric("Total Incendies", f"{len(df_filtered):,}")
+
     st.divider()
 
-    # DISTRIBUTION TEMPÉRATURE 
+    # --- ANALYSE TEMPÉRATURE ET PLUIE ---
     col_top1, col_top2 = st.columns([2, 1]) 
     
     with col_top1:
-        st.subheader("1. Fréquence selon la Température")
+        st.subheader("1. Fréquence selon la Température et Pluie")
         fig1, ax1 = plt.subplots(figsize=(10, 6))
-        sns.histplot(df_filtered['temp_max'], bins=30, kde=True, color='orange', edgecolor='black', ax=ax1)
+        
+        # On garde l'histogramme de température
+        sns.histplot(df_filtered['temp_max'], bins=30, kde=True, color='orange', label='Température', ax=ax1)
+        
+        # Ajout d'une analyse sur la pluie (Précipitations)
+        ax1_twin = ax1.twinx()
+        sns.kdeplot(df_filtered['precip'], color='blue', fill=True, ax=ax1_twin, label='Précipitations')
+        ax1_twin.set_ylabel('Densité de probabilité (Pluie)')
+        
         ax1.set_xlabel('Température Maximale (°C)')
         plt.tight_layout()
         st.pyplot(fig1)
     
     with col_top2:
-        st.write("### 🌡️ Facteur de chaleur")
-        st.write("""
-        La température est un **facteur de risque confirmé** : on observe une corrélation directe 
-        entre l'augmentation des températures et le nombre de départs de feux. 
-        C'est le moteur principal de l'inflammabilité de la végétation.
+        st.write("### 🌡️ Facteurs combinés")
+        st.write(f"""
+        Dans l'État de **{selected_full_name}**, les données confirment que les feux se déclarent quasi exclusivement 
+        lorsque les **précipitations sont nulles ou extrêmement faibles**. 
+        La chaleur agit comme le détonateur sur une végétation déjà asséchée par l'absence de pluie.
         """)
 
     st.divider()
+
+    # --- LIGNE 2 : HEXBINS CÔTE À CÔTE ---
+    st.subheader("2. Le rôle du vent : Densité vs Taille")
+    
+    st.warning("""
+    **Analyse :** Si la majorité des incendies se déclarent par temps calme (peu de vent), 
+    le vent reste un facteur clé de dangerosité. On observe que les incendies les plus vastes 
+    coïncident souvent avec des rafales plus importantes, car le vent permet une propagation 
+    rapide et incontrôlable des flammes.
+    """)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        fig2, ax2 = plt.subplots(figsize=(10, 7))
+        hb2 = ax2.hexbin(df_filtered['temp_max'], df_filtered['vent_max'], gridsize=25, cmap='YlOrRd', mincnt=1)
+        fig2.colorbar(hb2, ax=ax2, label='Nombre de feux')
+        ax2.set_title('Densité : Fréquence des départs')
+        ax2.set_xlabel('Température (°C)')
+        ax2.set_ylabel('Vent (km/h)')
+        plt.tight_layout()
+        st.pyplot(fig2)
+
+    with col2:
+        df_plot = df_filtered.dropna(subset=['FIRE_SIZE_HECT'])
+        fig3, ax3 = plt.subplots(figsize=(10, 7))
+        hb3 = ax3.hexbin(df_plot['temp_max'],
+                        df_plot['vent_max'],
+                        C=df_plot['FIRE_SIZE_HECT'],
+                        reduce_C_function=np.mean,
+                        gridsize=25,
+                        cmap='YlOrBr',
+                        mincnt=1)
+        fig3.colorbar(hb3, ax=ax3, label='Taille moy. (ha)')
+        ax3.set_title('Sévérité : Propagation par le vent')
+        ax3.set_xlabel('Température (°C)')
+        ax3.set_ylabel('Vent (km/h)')
+        plt.tight_layout()
+        st.pyplot(fig3)
 
     # --- LIGNE 2 : HEXBINS CÔTE À CÔTE ---
     st.subheader("2. Le rôle  du vent : Densité vs Taille")
