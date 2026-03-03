@@ -127,7 +127,7 @@ elif page == "Analyse Météo":
     with col_top2:
         st.write("### 🌡️ Facteurs combinés")
         st.write(f"""
-        Dans l'État de **{selected_full_name}**, les données confirment que les feux se déclarent quasi exclusivement 
+        Les données confirment que les feux se déclarent quasi exclusivement 
         lorsque les **précipitations sont nulles ou extrêmement faibles**. 
         La chaleur agit comme le détonateur sur une végétation déjà asséchée par l'absence de pluie.
         """)
