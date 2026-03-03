@@ -227,9 +227,13 @@ elif page == "Analyse de Sévérité":
     # 3️⃣ Tendance de la sévérité par année
     st.subheader("Tendance annuelle de la taille médiane des feux")
     df_year = df.groupby('FIRE_YEAR')['FIRE_SIZE_HECT'].median().reset_index()
-    fig4 = px.bar(df_year, x='FIRE_YEAR', y='FIRE_SIZE_HECT',
-                  title="Tendance annuelle de la taille médiane des feux",
-                  color_discrete_sequence=['#9467BD'])  # violet
+
+    fig4 = px.line(df_year, x='FIRE_YEAR', y='FIRE_SIZE_HECT',
+                title="Tendance annuelle de la taille médiane des feux",
+                markers=True,  # ajoute des points sur la ligne
+                line_shape='linear',  # forme de la ligne
+                color_discrete_sequence=['#9467BD'])  # violet
+
     st_plotly_fast(fig4, height=400)
     st.write("On observe certaines années avec une augmentation de la taille médiane des feux.")
 
