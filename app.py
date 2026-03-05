@@ -372,7 +372,7 @@ elif page == "Analyse Temporelle":
     st.plotly_chart(Bar_Month_Qty)
 
     st.markdown("""
-    ###### 📌 Analyse :  Lorsqu'on regarde cette répartition des fréquences de feux par mois de l'année, on constate que les feux de forêts ont lieu principalement au printemps et en été.
+    ###### 📌 Analyse :  On constate que les feux de forêts ont lieu principalement au printemps et en été.
         """)
 
     st.subheader("\n 3.Répartition de la taille des feux  par mois")
@@ -400,7 +400,7 @@ elif page == "Analyse Temporelle":
     st.plotly_chart(Bar_Month_Size)
 
     st.markdown("""
-    ###### 📌 Analyse : En regardant la répartition des tailles de feux par mois, il est flagrant de constater que c'est en été que se trouvent les feux de plus grande taille.
+    ###### 📌 Analyse : Il est flagrant de constater que c'est en été que se trouvent les feux de plus grande taille.
     """)
 
     # 3️⃣ Analyse des causes par mois :
@@ -491,7 +491,7 @@ elif page == "Analyse Temporelle":
     st.plotly_chart(year_cause_size)
     
     st.markdown("""
-    ###### 📌 Analyse : L’évolution de ces causes en taille de feux suit l’augmentation des feux de forêt au fil des années, les orages (Lightning) étant la cause principale des grands feux d'été.
+    ###### 📌 Analyse : L’évolution de ces causes en taille de feux suit l’augmentation des feux de forêt au fil des années : les orages (Lightning) étant la cause principale des grands feux d'été.
     """)
 
 
