@@ -37,7 +37,7 @@ df = load_data()
 st.title("🔥 Analyse des feux de forêt aux USA (1992-2015)")
 
 # Barre latérale pour la navigation
-st.sidebar.image("feu_de_foret_logo.png", use_container_width=True)
+st.sidebar.image("dessin feux foret.webp", use_container_width=True)
 page = st.sidebar.radio("Navigation", ["Accueil", "Analyse Temporelle", "Analyse de Sévérité", "Analyse par Localisation", "Analyse Météo", "Conclusion"])
 
 # --- PAGE ACCUEIL ---
