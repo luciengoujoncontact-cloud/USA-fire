@@ -22,6 +22,7 @@ def load_data():
             gdown.download(url, output, quiet=False)
     
     df = pd.read_csv(output, low_memory=False)
+    df=df.sort_values("FIRE_SIZE_HECT", ascending = False)
     
     # Conversion de l'année en entier pour éviter les virgules dans les filtres
     if 'FIRE_YEAR' in df.columns:
@@ -34,7 +35,7 @@ df = load_data()
 
 # --- 3. STRUCTURE DE L'INTERFACE ---
 
-st.title("🔥 Analyse des feux de forêt aux USA (1992-2015)")
+st.title("🔥 Analyse des feux de forêt aux Etats-Unis (1992-2015)")
 
 # Barre latérale pour la navigation
 st.sidebar.image("dessin feux foret.webp", use_container_width=True)
@@ -42,17 +43,20 @@ page = st.sidebar.radio("Navigation", ["Accueil", "Analyse Temporelle", "Analyse
 
 # --- PAGE ACCUEIL ---
 if page == "Accueil":
-    st.write("### Bienvenue dans le projet d'analyse des Wildfires")
+    st.write("### Bienvenue dans le projet d'analyse des feux de forêt aux Etats-Unis")
     st.write("""
-    Ce dashboard interactif permet d'explorer les facteurs influençant les incendies de forêt.
-    Nous avons travaillé sur les données historiques des services forestiers américains.
-    Nous avons selectionné, nettoyé ou encore transformé ces données pour les rendre exploitables.
-    Nous avons ensuite croisé ces données avec des données météorologiques précises.
+    Ce dashboard interactif permet d'explorer les facteurs influençant les incendies de forêt.\n
+    Nous avons analysé les données historiques du service forestier américain recensant les feux entre 1992 et 2015.\n
+    Ce dataset est en libre accès sur la plateforme Kaggle et contient les caractéristiques de 1 880 465 feux sur cette période. \n
+    Nous avons selectionné, nettoyé et transformé ces données pour les rendre exploitables. \n
+    Initialement consitué de 39 colonnes caractérisant les feux, nous n'en avons selectionné que 21 pertinentes pour l'analyse.\n
+    Nous avons ensuite ajouté 3 colonnes contenant les données météorologiques (température, vitesse du vent et pluie) associées aux principaux Etats touchés par les feux.\n
+    Cette présentation a pour objectif d'expliquer les principales causes de ces feux de forêts.
     """)
     
     st.info("Utilisez le menu à gauche pour naviguer entre les différents axes d'analyse.")
     
-    if st.checkbox("Afficher un aperçu des données brutes (10 premières lignes)"):
+    if st.checkbox("Afficher un aperçu des données sur les 10 premières lignes, correspondant aux 10 plus grands feux"):
         st.dataframe(df.head(10))
 
 # --- PAGE ANALYSE MÉTÉO (LUCIEN) ---
