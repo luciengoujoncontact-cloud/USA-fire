@@ -108,7 +108,7 @@ elif page == "Analyse Météo":
         fig1, ax1 = plt.subplots(figsize=(10, 6))
         
         # Axe 1 : Température (Histogramme orange)
-        sns.histplot(df_filtered['temp_max'], bins=30, kde=True, color='orange', label='Température (°C)', ax=ax1)
+        sns.histplot(df_filtered['temp_max'], bins=30, kde=True, cmap='YlOrRd', label='Température (°C)', ax=ax1)
         ax1.set_xlabel('Température Maximale (°C)')
         ax1.set_ylabel('Nombre d\'incendies')
 
