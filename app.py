@@ -57,8 +57,7 @@ if page == "Accueil":
 
 # --- PAGE ANALYSE MÉTÉO (LUCIEN) ---
 
-cmap = plt.get_cmap('YlOrRd')
-couleur_feu = cmap(0.6)
+
 
 elif page == "Analyse Météo":
     st.header("🌦️ Influence des conditions Météo")
@@ -106,6 +105,8 @@ elif page == "Analyse Météo":
 
     # --- ANALYSE TEMPÉRATURE ET PLUIE ---
     col_top1, col_top2 = st.columns([2, 1]) 
+    cmap = plt.get_cmap('YlOrRd')
+    couleur_feu = cmap(0.6)
     
     with col_top1:
         st.subheader("1. Fréquence selon la Température et Pluie")
