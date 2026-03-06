@@ -650,7 +650,6 @@ elif page == "Conclusion":
     C'est un outil précieux pour :
     1. **Anticiper** les besoins en ressources selon les prévisions météo.
     2. **Cibler** les campagnes de prévention selon les causes majoritaires identifiées par État (ex: foudre vs activité humaine).
-    3. **Analyser** l'efficacité historique des secours selon la durée de maîtrise des feux.
     """)
 
     # --- 3. Ouverture ---
