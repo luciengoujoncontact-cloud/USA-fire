@@ -638,7 +638,7 @@ elif page == "Conclusion":
         st.subheader("🌦️ Facteurs Climatiques et Temporels")
         st.write("""
         - **Temporalité :** L'analyse confirme une saisonnalité critique en **juillet et août**, période où les ressources de lutte doivent être à leur maximum.
-        - **Météo (Le duo fatal) :** L'étude de Lucien démontre que la **température** élevée est le "détonateur" (éclosion), tandis que la vitesse du **vent** est le véritable "propagateur" (sévérité). L'absence de pluie est la condition sine qua non de ces catastrophes.
+        - **Météo (Le duo fatal) :** L'étude démontre que la **température** élevée est le "détonateur" (éclosion), tandis que la vitesse du **vent** est le véritable "propagateur" (sévérité). L'absence de pluie est la condition sine qua non de ces catastrophes.
         """)
 
     st.divider()
