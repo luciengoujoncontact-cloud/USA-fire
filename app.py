@@ -47,7 +47,7 @@ st.sidebar.markdown(""" \n""")
 st.sidebar.markdown(""" \n""")
 st.sidebar.markdown(""" \n""")
 st.sidebar.markdown(""" \n""")
-st.sidebar.markdown(""" \n""")
+
 
 st.sidebar.markdown("""Qui sommes nous ? \n
 Sophie BENCHAA \n
