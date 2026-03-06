@@ -614,3 +614,50 @@ elif page == "Analyse géographique":
     - Permet d’identifier les États où les incendies sont fréquents et prolongés.
     - Ces informations sont utiles pour la planification et la prévention.
     """)
+    
+    # --- PAGE CONCLUSION ---
+elif page == "Conclusion":
+    st.header("🏁 Conclusion Générale du Projet")
+
+    st.write("""
+    Ce projet d’analyse des incendies aux États-Unis (1992-2015) nous a permis de transformer un dataset massif de **1,88 million de lignes** en une plateforme décisionnelle interactive. 
+    L'approche multidimensionnelle adoptée par l'équipe révèle que la lutte contre les feux de forêt ne peut être efficace qu'en croisant les facteurs temporels, géographiques et météorologiques.
+    """)
+
+    # --- 1. Synthèse par axes ---
+    col_c1, col_c2 = st.columns(2)
+
+    with col_c1:
+        st.subheader("📍 Dynamique Géographique et Sévérité")
+        st.write("""
+        - **Localisation :** L'analyse de Tiphaine a montré une disparité flagrante : si le Sud est la région la plus souvent touchée en nombre de départs, l'**Ouest américain (et l'Alaska)** concentre l'essentiel des surfaces dévastées.
+        - **Sévérité :** L'étude d'Ismaïl souligne la loi du "90/10" : 90% des feux sont maîtrisés rapidement (Classes A-B), mais moins de 1% des feux (Classe G) causent plus de 80% des dégâts totaux.
+        """)
+
+    with col_c2:
+        st.subheader("🌦️ Facteurs Climatiques et Temporels")
+        st.write("""
+        - **Temporalité :** L'analyse de Sophie/Lucien confirme une saisonnalité critique en **juillet et août**, période où les ressources de lutte doivent être à leur maximum.
+        - **Météo (Le duo fatal) :** L'étude de Lucien démontre que la **température** élevée est le "détonateur" (éclosion), tandis que la vitesse du **vent** est le véritable "propagateur" (sévérité). L'absence de pluie est la condition sine qua non de ces catastrophes.
+        """)
+
+    st.divider()
+
+    # --- 2. Apports du Dashboard ---
+    st.subheader("🚀 L'apport de l'outil Streamlit")
+    st.success("""
+    L'interactivité de ce tableau de bord, notamment grâce aux **filtres dynamiques par État**, permet de sortir des statistiques globales pour effectuer un **drill-down** localisé. 
+    C'est un outil précieux pour :
+    1. **Anticiper** les besoins en ressources selon les prévisions météo.
+    2. **Cibler** les campagnes de prévention selon les causes majoritaires identifiées par État (ex: foudre vs activité humaine).
+    3. **Analyser** l'efficacité historique des secours selon la durée de maîtrise des feux.
+    """)
+
+    # --- 3. Ouverture ---
+    st.info("""
+    **Perspectives :** Ce projet pourrait évoluer vers une dimension prédictive. En intégrant des modèles de **Machine Learning**, l'application pourrait estimer en temps réel le risque de propagation d'un nouveau foyer dès son signalement, en fonction des données vent/température/humidité du jour.
+    """)
+
+    # Crédits finaux
+    st.markdown("---")
+    st.markdown("<center>Projet réalisé dans le cadre de la formation Data Analyst - 2025</center>", unsafe_allow_html=True)
