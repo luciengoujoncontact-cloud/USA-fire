@@ -630,14 +630,14 @@ elif page == "Conclusion":
     with col_c1:
         st.subheader("📍 Dynamique Géographique et Sévérité")
         st.write("""
-        - **Localisation :** L'analyse de Tiphaine a montré une disparité flagrante : si le Sud est la région la plus souvent touchée en nombre de départs, l'**Ouest américain (et l'Alaska)** concentre l'essentiel des surfaces dévastées.
-        - **Sévérité :** L'étude d'Ismaïl souligne la loi du "90/10" : 90% des feux sont maîtrisés rapidement (Classes A-B), mais moins de 1% des feux (Classe G) causent plus de 80% des dégâts totaux.
+        - **Localisation :** L'analyse  a montré une disparité flagrante : si le Sud est la région la plus souvent touchée en nombre de départs, l'**Ouest américain (et l'Alaska)** concentre l'essentiel des surfaces dévastées.
+        - **Sévérité :** L'étude souligne la loi du "90/10" : 90% des feux sont maîtrisés rapidement (Classes A-B), mais moins de 1% des feux (Classe G) causent plus de 80% des dégâts totaux.
         """)
 
     with col_c2:
         st.subheader("🌦️ Facteurs Climatiques et Temporels")
         st.write("""
-        - **Temporalité :** L'analyse de Sophie/Lucien confirme une saisonnalité critique en **juillet et août**, période où les ressources de lutte doivent être à leur maximum.
+        - **Temporalité :** L'analyse confirme une saisonnalité critique en **juillet et août**, période où les ressources de lutte doivent être à leur maximum.
         - **Météo (Le duo fatal) :** L'étude de Lucien démontre que la **température** élevée est le "détonateur" (éclosion), tandis que la vitesse du **vent** est le véritable "propagateur" (sévérité). L'absence de pluie est la condition sine qua non de ces catastrophes.
         """)
 
