@@ -242,7 +242,6 @@ elif page == "Analyse de sévérité":
             df_class,
             x='FIRE_SIZE_CLASS',
             y='count',
-            title="Nombre de feux par classe (A à G)",
             color='FIRE_SIZE_CLASS',
             color_discrete_map={
                 'A':'#FFA500',  # orange clair
@@ -268,7 +267,6 @@ elif page == "Analyse de sévérité":
             df_sum,
             x='FIRE_SIZE_CLASS',
             y='FIRE_SIZE_HECT',
-            title="Surface totale brûlée par classe",
             color='FIRE_SIZE_CLASS',
             color_discrete_map={
                 'A':'#FFA500',
@@ -294,7 +292,6 @@ elif page == "Analyse de sévérité":
         df_year,
         x='FIRE_YEAR',
         y='FIRE_SIZE_HECT',
-        title="Tendance annuelle de la taille médiane des feux",
         markers=True,
         line_shape='linear',
         color_discrete_sequence=['#B22222']  # rouge foncé pour contraster
@@ -314,7 +311,6 @@ elif page == "Analyse de sévérité":
         x='STAT_CAUSE_DESCR',
         y='FIRE_SIZE_HECT',
         log_y=True,
-        title="Distribution de la taille des feux par cause",
         color='STAT_CAUSE_DESCR',
         color_discrete_map={
             c:'#FF7F0E' for c in df['STAT_CAUSE_DESCR'].unique()  # orange vif pour toutes les causes
@@ -328,8 +324,6 @@ elif page == "Analyse de sévérité":
     - La distribution est très asymétrique : la plupart des feux restent petits, mais les outliers peuvent avoir un impact significatif.
     - Ces points extrêmes doivent être pris en compte pour la planification et la prévention, car ils représentent les feux les plus destructeurs.
     """)
-      
-  
 
 elif page == "Analyse temporelle":
     st.write("## Analyse temporelle des feux")
