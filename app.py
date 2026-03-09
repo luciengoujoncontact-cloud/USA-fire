@@ -206,6 +206,7 @@ elif page == "Analyse de sévérité":
     import plotly.io as pio
     import streamlit.components.v1 as components
     import plotly.express as px
+    st.write("## Analyse de sévérité des feux")
 
     # --- Graphiques et affichage rapide via HTML pour accélérer ---
     def st_plotly_fast(fig, height=500):
@@ -235,23 +236,14 @@ elif page == "Analyse de sévérité":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("Nombre de feux par classe")
+        st.subheader("1. Nombre de feux par classe")
         df_class = df['FIRE_SIZE_CLASS'].value_counts().sort_index().reset_index()
         df_class.columns = ['FIRE_SIZE_CLASS','count']
         fig2 = px.bar(
             df_class,
             x='FIRE_SIZE_CLASS',
             y='count',
-            color='FIRE_SIZE_CLASS',
-            color_discrete_map={
-                'A':'#FFA500',  # orange clair
-                'B':'#FF8C00',  # orange
-                'C':'#FF4500',  # orange foncé
-                'D':'#FF0000',  # rouge
-                'E':'#DC143C',  # rouge vif
-                'F':'#B22222',  # rouge foncé
-                'G':'#8B0000'   # rouge très foncé
-            }
+            color_discrete_sequence=['rgb(254,178,76)']
         )
         st_plotly_fast(fig2, height=400)
         st.markdown("""
@@ -261,22 +253,13 @@ elif page == "Analyse de sévérité":
         """)
 
     with col2:
-        st.subheader("Surface totale brûlée par classe")
+        st.subheader("2. Surface totale brûlée par classe")
         df_sum = df.groupby('FIRE_SIZE_CLASS')['FIRE_SIZE_HECT'].sum().sort_index().reset_index()
         fig3 = px.bar(
             df_sum,
             x='FIRE_SIZE_CLASS',
             y='FIRE_SIZE_HECT',
-            color='FIRE_SIZE_CLASS',
-            color_discrete_map={
-                'A':'#FFA500',
-                'B':'#FF8C00',
-                'C':'#FF4500',
-                'D':'#FF0000',
-                'E':'#DC143C',
-                'F':'#B22222',
-                'G':'#8B0000'
-            }
+            color_discrete_sequence=['rgb(254,178,76)']
         )
         st_plotly_fast(fig3, height=400)
         st.markdown("""
@@ -286,7 +269,7 @@ elif page == "Analyse de sévérité":
         """)
 
     # 3️⃣ Tendance de la sévérité par année
-    st.subheader("Tendance annuelle de la taille médiane des feux")
+    st.subheader("3. Tendance annuelle de la taille médiane des feux")
     df_year = df.groupby('FIRE_YEAR')['FIRE_SIZE_HECT'].median().reset_index()
     fig4 = px.line(
         df_year,
@@ -294,7 +277,7 @@ elif page == "Analyse de sévérité":
         y='FIRE_SIZE_HECT',
         markers=True,
         line_shape='linear',
-        color_discrete_sequence=['#B22222']  # rouge foncé pour contraster
+        color_discrete_sequence=['rgb(128,0,38)']
     )
     st_plotly_fast(fig4, height=400)
     st.markdown("""
@@ -305,16 +288,14 @@ elif page == "Analyse de sévérité":
     """)
 
     # 4️⃣ Distribution des causes par taille de feu
-    st.subheader("Distribution des causes par taille de feu")
+    st.subheader("4. Distribution des causes par taille de feu")
     fig5 = px.box(
         df,
         x='STAT_CAUSE_DESCR',
         y='FIRE_SIZE_HECT',
         log_y=True,
         color='STAT_CAUSE_DESCR',
-        color_discrete_map={
-            c:'#FF7F0E' for c in df['STAT_CAUSE_DESCR'].unique()  # orange vif pour toutes les causes
-        }
+        color_discrete_sequence=px.colors.qualitative.T10
     )
     st_plotly_fast(fig5, height=450)
     st.markdown("""
