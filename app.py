@@ -306,6 +306,8 @@ elif page == "Analyse de sévérité":
     - Ces points extrêmes doivent être pris en compte pour la planification et la prévention, car ils représentent les feux les plus destructeurs.
     """)
 
+    st.subheader("\n -> Maintenant qu'on a vu la sévérité selon la taille et la cause : quelles régions concentrent ces incendies ? ")
+
 elif page == "Analyse temporelle":
     st.write("## Analyse temporelle des feux")
     import plotly.graph_objects as go
