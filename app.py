@@ -336,7 +336,9 @@ elif page == "Analyse temporelle":
                                  line=dict(color='rgb(128,0,38)', width=4),
                                  marker_line = dict(width = 0.5, color = 'black')),
                       secondary_y=True,)
-    fig.update_layout(   width=1500,
+    fig.update_layout(title_text = "Evolution de la fréquence et de la taille des feux par année",
+                      title_font_style= "italic",
+                      width=1500,
                           height=500,
                           bargap=0.3)
     # Set x-axis title
