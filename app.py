@@ -588,7 +588,7 @@ elif page == "Analyse géographique":
 
     st.markdown("""
     ###### 📌 Analyse : Chaque État est coloré selon la durée moyenne des feux. Cela nous permet d’identifier les États où les incendies sont fréquents et prolongés. 
-    # Ces informations sont utiles pour la planification et la prévention.
+    Ces informations sont utiles pour la planification et la prévention.
     """)
 
     st.subheader("\n 5. Cartographie forestière et désertique des USA")
