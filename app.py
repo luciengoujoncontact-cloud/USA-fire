@@ -385,7 +385,7 @@ elif page == "Analyse temporelle":
     - En été (juillet/aout)
      \n \n   """)
 
-    st.subheader("\n 3. Est-ce que cette périodicité mensuelle est la même si on regarde la taille des feux ")
+    st.subheader("\n 3. Est-ce que cette périodicité mensuelle est la même si on regarde la taille des feux ?")
     df_month_size=df.groupby(["DISCOVERY_MONTH"],as_index=False)["FIRE_SIZE_HECT"].sum()
     df_month_size=df_month_size.sort_values(by='DISCOVERY_MONTH')
 
