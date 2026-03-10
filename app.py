@@ -313,7 +313,7 @@ elif page == "Analyse temporelle":
     from plotly.subplots import make_subplots
 
     # 1️⃣ Evolution de la fréquence et taille des feux  par an
-    st.subheader("\n 1. Comment a évolué le nombre et la taille des feux au fil des années ? ")
+    st.subheader("\n 1. Comment ont évolué le nombre et la taille des feux au fil des années ? ")
     st.write("""
     Nous possédons pour chaque feu de la base de données, sa date de déclaration ainsi que sa taille. \n
     Nous pouvons donc analyser l'évolution de la fréquence et de la taille des feux sur l'intégralité des vingt-trois années de données : 
@@ -357,7 +357,7 @@ elif page == "Analyse temporelle":
     
 
     # 2️⃣ Répartition des feux  par mois
-    st.subheader("\n 2.Répartition de la fréquence des feux  par mois")
+    st.subheader("\n 2.Y a t-il des mois qui concentrent le plus de feux ?")
 
     df_month_qty=df.groupby(["DISCOVERY_MONTH"],as_index=False)["OBJECTID"].count()
 
@@ -377,10 +377,13 @@ elif page == "Analyse temporelle":
     st.plotly_chart(Bar_Month_Qty)
 
     st.markdown("""
-    ###### 📌 Analyse :  On constate que les feux de forêts ont lieu principalement au printemps et en été.
+    ###### 📌 Analyse :  
+    On constate deux saisons principales pour l'apparition des feux de forêt : 
+    - Au printemps (mars/avril)
+    - En été (juillet/aout)
         """)
 
-    st.subheader("\n 3.Répartition de la taille des feux  par mois")
+    st.subheader("\n 3.Est-ce que cette périodicité mensuelle est la même si on regarde la taille des feux ")
     df_month_size=df.groupby(["DISCOVERY_MONTH"],as_index=False)["FIRE_SIZE_HECT"].sum()
     df_month_size=df_month_size.sort_values(by='DISCOVERY_MONTH')
 
@@ -405,11 +408,12 @@ elif page == "Analyse temporelle":
     st.plotly_chart(Bar_Month_Size)
 
     st.markdown("""
-    ###### 📌 Analyse : Il est flagrant de constater que c'est en été que se trouvent les feux de plus grande taille.
+    ###### 📌 Analyse : 
+    Il est flagrant de constater que c'est seulement l'été que l'on trouve les feux de plus grande taille.
     """)
 
     # 3️⃣ Analyse des causes par mois :
-    st.subheader("4. Analyse des causes par mois en fonction de leurs fréquences")
+    st.subheader("4. Quelles sont les principales causes pour chaque mois ?")
  
 
     import plotly.express as px
@@ -438,7 +442,10 @@ elif page == "Analyse temporelle":
     st.plotly_chart(Rootcause_Month)
 
     st.markdown("""
-    ###### 📌 Analyse : Les causes principales diffèrent entre le printemps (Debris Burning) et l’été (Lightning).
+    ###### 📌 Analyse : 
+    Les causes principales diffèrent suivant les saisons : 
+    - Au printemps : Déchets brulés (Debris Burning)
+    - En été : Orages (Lightning)
     """)
 
     st.warning("""
@@ -449,7 +456,7 @@ elif page == "Analyse temporelle":
 
 
     #4️⃣ Analyse cause par an
-    st.subheader("5. Analyse des fréquences de causes par an")
+    st.subheader("5. Est-ce qu'au fil du temps la hiérarchie des causes a évolué ?")
 
     df_year_cause_size=df.groupby(["FIRE_YEAR", "STAT_CAUSE_DESCR"],as_index=False ).agg({"FIRE_SIZE_HECT" : "sum", "OBJECTID" : "count"})
     df_year_cause_size=df_year_cause_size.sort_values(by= "FIRE_YEAR")
@@ -472,12 +479,13 @@ elif page == "Analyse temporelle":
     st.plotly_chart(year_cause_freq)
 
     st.markdown("""
-    ###### 📌 Analyse : La hiérarchie au sein des causes est restée sensiblement la même au fil des années.
-    ###### On ne voit pas de causes qui disparaissent ou d'autres qui apparaissent avec le temps.
-    ###### Les causes principales sont « Debris Burning » suivi de « Arson » (incendie criminel) et « Lightning » (Orages).
+    ###### 📌 Analyse : 
+    - La hiérarchie au sein des causes est restée sensiblement la même au fil des années.
+    - On ne voit pas de causes qui disparaissent ou d'autres qui apparaissent avec le temps.
+    - Les causes principales sont « Debris Burning » suivi de « Arson » (incendie criminel) et « Lightning » (Orages).
     """)
 
-    st.subheader("6. Analyse des causes par an en fonction de la taille des feux associées")
+    st.subheader("6. Comment ont évolué les causes au fil des années si on regarde par taille de feux ? ")
 
 
     plt.figure(figsize=[180,200])
@@ -496,7 +504,9 @@ elif page == "Analyse temporelle":
     st.plotly_chart(year_cause_size)
     
     st.markdown("""
-    ###### 📌 Analyse : L’évolution de ces causes en taille de feux suit l’augmentation des feux de forêt au fil des années : les orages (Lightning) étant la cause principale des grands feux d'été.
+    ###### 📌 Analyse : 
+    - L’évolution de ces causes en taille de feux suit l’augmentation des feux de forêt au fil des années.
+    - Les orages (Lightning) sont la cause principale des grands feux d'été.
     """)
 
 
