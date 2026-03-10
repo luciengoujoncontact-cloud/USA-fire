@@ -591,9 +591,6 @@ elif page == "Analyse par Localisation":
     # Ces informations sont utiles pour la planification et la prévention.
     """)
 
-    import streamlit as st
-    import os
-
     st.subheader("\n 5. Cartographie forestière et désertique des USA")
 
     image_path = os.path.join(os.path.dirname(__file__), "cartographieusa.jpg")
@@ -604,9 +601,6 @@ elif page == "Analyse par Localisation":
     st.markdown("""
     ###### 📌 Analyse : Cette carte nous montre la répartition géographique des forêts aux États-Unis, ce qui nous permet de visualiser les zones les plus vulnérables aux incendies.
     """)
-
-    import streamlit as st
-    import os
 
     st.subheader("\n 6. Cartographie des climats des USA")
 
