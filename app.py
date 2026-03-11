@@ -78,11 +78,14 @@ if page == "Accueil":
 
 # --- PAGE ANALYSE MÉTÉO (LUCIEN) ---
 
-
-
 elif page == "Analyse météorologique":
-    st.header("🌦️ Influence des conditions Météo")
+    st.write("## 🌦️ Influence des conditions météorologiques")
     
+    st.write("""
+    Cette section explore comment les variables atmosphériques dictent le rythme des incendies. 
+    L'analyse se concentre sur les 5 États les plus critiques pour garantir une corrélation précise entre les départs de feux et les relevés d'Open-Meteo.
+    """)
+
     # Dictionnaire des noms d'états
     state_mapping = {
         "Tous les États": "ALL",
@@ -94,9 +97,9 @@ elif page == "Analyse météorologique":
     }
     
     # Filtre Global / Par État
-    st.write("### Sélection du périmètre d'analyse")
+    st.subheader("Périmètre d'observation")
     selected_full_name = st.selectbox(
-        "Choisir la zone à analyser :", 
+        "Sélectionner une zone géographique :", 
         options=list(state_mapping.keys())
     )
     
@@ -108,42 +111,41 @@ elif page == "Analyse météorologique":
         df_filtered = df[df['STATE'] == selected_abbrev]
 
     # --- KPI ---
-    st.write(f"### Indicateurs clés : {selected_full_name}")
+    st.write(f"### État des lieux : {selected_full_name}")
     col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
     
     with col_kpi1:
         st.metric("Température Moy.", f"{df_filtered['temp_max'].mean():.1f} °C")
     with col_kpi2:
-        # On calcule la moyenne des vents
         st.metric("Vent Moyen", f"{df_filtered['vent_max'].mean():.1f} km/h")
     with col_kpi3:
-        # Précipitations moyennes (souvent proche de 0 lors des feux)
         st.metric("Précip. Moyennes", f"{df_filtered['pluie_mm'].mean():.2f} mm")
     with col_kpi4:
         st.metric("Total Incendies", f"{len(df_filtered):,}")
 
     st.divider()
 
-    # --- ANALYSE TEMPÉRATURE ET PLUIE ---
+    # --- 1. TEMPÉRATURE ET HUMIDITÉ (PLUIE) ---
+    st.subheader("\n 1. Quels sont les impacts combinés de la chaleur et de l'humidité sur l'éclosion des feux ?")
+    
     col_top1, col_top2 = st.columns([2, 1]) 
     cmap = plt.get_cmap('YlOrRd')
     couleur_feu = cmap(0.6)
     
     with col_top1:
-        st.subheader("1. Fréquence selon la Température et Pluie")
         fig1, ax1 = plt.subplots(figsize=(10, 6))
         
-        # Axe 1 : Température (Histogramme orange)
+        # Axe 1 : Température
         sns.histplot(df_filtered['temp_max'], bins=30, kde=True, color=couleur_feu, label='Température (°C)', ax=ax1)
         ax1.set_xlabel('Température Maximale (°C)')
         ax1.set_ylabel('Nombre d\'incendies')
 
-        # Axe 2 : Pluie (Courbe bleue)
+        # Axe 2 : Pluie (Indicateur d'humidité)
         ax1_twin = ax1.twinx()
         sns.kdeplot(df_filtered['pluie_mm'], color='blue', fill=True, ax=ax1_twin, label='Précipitations (mm)')
-        ax1_twin.set_ylabel('Densité de probabilité (Pluie)')
+        ax1_twin.set_ylabel('Densité d\'absence d\'humidité (Pluie)')
         
-        # --- RÉCUPÉRATION ET AFFICHAGE DE LA LÉGENDE UNIQUE ---
+        # Légende unique
         lines_1, labels_1 = ax1.get_legend_handles_labels()
         lines_2, labels_2 = ax1_twin.get_legend_handles_labels()
         ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc='upper right')
@@ -152,23 +154,21 @@ elif page == "Analyse météorologique":
         st.pyplot(fig1)
     
     with col_top2:
-        st.write("### 🌡️ Facteurs combinés")
-        st.write(f"""
-        Les données confirment que les feux se déclarent quasi exclusivement 
-        lorsque les **précipitations sont nulles ou extrêmement faibles**. 
-        La chaleur agit comme le détonateur sur une végétation déjà asséchée par l'absence de pluie.
+        st.write("\n" * 2) 
+        st.write("""
+        ###### 📌 Réponse visuelle : 
+        - **Le seuil critique :** On observe une explosion du nombre de feux dès que la température dépasse les **25°C**.
+        - **Le facteur humidité :** La courbe bleue montre que la densité d'incendies est maximale quand les précipitations sont à **0mm**. 
+        - **Conclusion :** Le stress hydrique de la végétation (basse humidité) combiné à une forte chaleur constitue le "cocktail explosif" idéal pour le départ d'un feu.
         """)
 
     st.divider()
 
-    # --- LIGNE 2 : HEXBINS CÔTE À CÔTE ---
-    st.subheader("2. Le rôle du vent : Densité vs Taille")
+    # --- 2. LE VENT ET LA SÉVÉRITÉ ---
+    st.subheader("\n 2. Comment le vent transforme-t-il un départ de feu en catastrophe majeure ?")
     
-    st.warning("""
-    **Analyse :** Si la majorité des incendies se déclarent par temps calme (peu de vent), 
-    le vent reste un facteur clé de dangerosité. On observe que les incendies les plus vastes 
-    coïncident souvent avec des rafales plus importantes, car le vent permet une propagation 
-    rapide et incontrôlable des flammes.
+    st.write("""
+    L'analyse croisée ci-dessous permet de distinguer deux phénomènes : ce qui crée le feu (la chaleur) et ce qui le propage (le vent).
     """)
 
     col1, col2 = st.columns(2)
@@ -177,7 +177,7 @@ elif page == "Analyse météorologique":
         fig2, ax2 = plt.subplots(figsize=(10, 7))
         hb2 = ax2.hexbin(df_filtered['temp_max'], df_filtered['vent_max'], gridsize=25, cmap='YlOrRd', mincnt=1)
         fig2.colorbar(hb2, ax=ax2, label='Nombre de feux')
-        ax2.set_title('Densité : Fréquence des départs')
+        ax2.set_title('Fréquence : Où naissent les feux ?', fontstyle='italic')
         ax2.set_xlabel('Température (°C)')
         ax2.set_ylabel('Vent (km/h)')
         plt.tight_layout()
@@ -194,12 +194,17 @@ elif page == "Analyse météorologique":
                         cmap='YlOrBr',
                         mincnt=1)
         fig3.colorbar(hb3, ax=ax3, label='Taille moy. (ha)')
-        ax3.set_title('Sévérité : Propagation par le vent')
+        ax3.set_title('Sévérité : Quels feux deviennent incontrôlables ?', fontstyle='italic')
         ax3.set_xlabel('Température (°C)')
         ax3.set_ylabel('Vent (km/h)')
         plt.tight_layout()
         st.pyplot(fig3)
 
+    st.markdown("""
+    ###### 📌 Réponse visuelle : 
+    - **Le vent, moteur de propagation :** Si le premier graphique montre que beaucoup de feux naissent par vent faible, le second révèle que les **incendies les plus vastes** (en sombre) surviennent lorsque le vent forcit.
+    - **L'effet couloir :** Un vent soutenu (> 20-30 km/h) couplé à une forte température empêche l'extinction rapide et favorise les sautes de feu.
+    """)
 # --- PAGE ANALYSE SEVERITE (ISMAIL) OPTIMISÉE ---
 elif page == "Analyse de sévérité":
     import plotly.io as pio
