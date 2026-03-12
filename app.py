@@ -46,35 +46,73 @@ st.sidebar.markdown(""" \n""")
 st.sidebar.markdown(""" \n""")
 st.sidebar.markdown(""" \n""")
 st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
+st.sidebar.markdown(""" \n""")
 
 
-st.sidebar.markdown("""Qui sommes nous ? \n
-Sophie BENCHAA \n
-Tiphaine BIHOUR\n
-Ismaïl BOUAZIZI\n
-Lucien GOUJON""")
-st.sidebar.image("Liora.png", width=100)
+st.sidebar.markdown("""
+                    <p style="line-height: 1.2; margin: 0;">Qui sommes nous ? </p>
+                    <p style="line-height: 1.2; margin: 0;">🔥 Sophie BENCHAA</p>
+                    <p style="line-height: 1.2; margin: 0;">🔥 Tiphaine BIHOUR</p>
+                    <p style="line-height: 1.2; margin: 0;">🔥 Ismaïl BOUAZIZI</p>
+                    <p style="line-height: 1.2; margin: 0;">🔥 Lucien GOUJON</p>
+                    """, unsafe_allow_html=True)
 
+st.sidebar.image("Liora.png", width=80)
+st.markdown("""
+    <style>
+    [data-testid="stSidebar"] [data-testid="stImage"] {
+        display: flex;
+        justify-content: center;
+    }
+    </style>
+""", unsafe_allow_html=True)
 # --- PAGE ACCUEIL ---
 if page == "Accueil":
     st.write("### Bienvenue dans le projet d'analyse des feux de forêt aux Etats-Unis")
     st.write("""
     Ce dashboard interactif permet d'explorer les facteurs influençant les incendies de forêt.\n
-    Nous avons analysé les données historiques du service forestier américain recensant les feux entre 1992 et 2015.\n
-    Le dataset source de notre travail est en libre accès sur la plateforme Kaggle et contient les caractéristiques de 1 880 465 feux sur cette période. \n
-    Nous avons selectionné, nettoyé et transformé ces données pour les rendre exploitables. \n
-    Initialement consitué de 39 colonnes caractérisant les feux, nous n'en avons selectionné que 21 pertinentes pour l'analyse.\n
-    En effet certaines étaient redondantes entre elles, ou trop incomplètes pour être utiles à notre analyse. \n
-    Nous avons ensuite ajouté 3 colonnes contenant les données météorologiques (température, vitesse du vent et pluie) associées aux principaux Etats touchés par les feux.\n
-    Nous avons mené l'exploration suivant quatre axes : l'axe temporel, de sévérité, géographique et météorologique.\n
-    Bonne lecture !\n
-
     """)
     
+        # --- 1. Synthèse par axes ---
+    col_c1, col_c2 = st.columns(2)
+
+    with col_c1:
+        st.subheader("📋 Les données sources")
+        st.write("""
+        - Nous avons analysé les données historiques des services forestiers américains recensant les feux pendant 23 ans : entre 1992 et 2015.
+        - Le dataset source de notre travail contient les caractéristiques de 1 880 465 feux sur cette période.
+        - Ces données sont en libre accès sur la plateforme Kaggle.
+        """)
+
+    with col_c2:
+        st.subheader("📊 Notre travail")
+        st.write("""
+        - Nous avons selectionné, nettoyé et transformé ces données pour les rendre exploitables.
+        - Initialement consitué de 39 colonnes caractérisant les feux, nous n'en avons selectionné que 21 pertinentes pour l'analyse.
+        - En effet certaines étaient redondantes entre elles, ou trop incomplètes pour être utiles à notre analyse.
+        - Nous avons ensuite ajouté 3 colonnes contenant les données météorologiques (température, vitesse du vent et pluie) associées aux principaux Etats touchés par les feux.
+        - Nous avons mené l'exploration suivant quatre axes : l'axe temporel, de sévérité, géographique et météorologique.
+        """)
+
+    st.divider()
+
+    st.subheader("""
+    **🔍 Bonne lecture !**\n
+    """)
+
     st.info("Utilisez le menu à gauche pour naviguer entre les différents axes d'analyse.")
     
     if st.checkbox("Afficher un aperçu des données sur les 10 premières lignes, correspondant aux 10 plus grands feux"):
         st.dataframe(df.head(10))
+
 
 # --- PAGE ANALYSE MÉTÉO (LUCIEN) ---
 
