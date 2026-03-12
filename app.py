@@ -278,70 +278,75 @@ elif page == "Analyse de sévérité":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("1. Nombre de feux par classe")
+        st.subheader("1. Quel est le nombre de feux par classe?")
         df_class = df['FIRE_SIZE_CLASS'].value_counts().sort_index().reset_index()
         df_class.columns = ['FIRE_SIZE_CLASS','count']
         fig2 = px.bar(
             df_class,
             x='FIRE_SIZE_CLASS',
             y='count',
+            title="Nombre de feux par classe (A à G)",
             color_discrete_sequence=['rgb(254,178,76)']
         )
         st_plotly_fast(fig2, height=400)
         st.markdown("""
-        ### 📌 Lecture du graphique
+        ###### 📌 Analyse : 
         - Les petites classes (A, B, C) représentent le plus grand nombre de feux.
         - Les classes D à G sont moins fréquentes, mais leur impact sur la surface totale brûlée est important.
         """)
 
     with col2:
-        st.subheader("2. Surface totale brûlée par classe")
+        st.subheader("2. Quelle est la surface totale brûlée par classe?")
         df_sum = df.groupby('FIRE_SIZE_CLASS')['FIRE_SIZE_HECT'].sum().sort_index().reset_index()
         fig3 = px.bar(
             df_sum,
             x='FIRE_SIZE_CLASS',
             y='FIRE_SIZE_HECT',
+            title="Surface totale brûlée par classe",
             color_discrete_sequence=['rgb(254,178,76)']
         )
         st_plotly_fast(fig3, height=400)
         st.markdown("""
-        ### 📌 Lecture du graphique
+        ###### 📌 Analyse : 
         - Les classes F et G, bien que rares, représentent la majorité de la surface brûlée.
         - Les classes A à D contribuent peu à la surface totale malgré leur fréquence.
         """)
 
     # 3️⃣ Tendance de la sévérité par année
-    st.subheader("3. Tendance annuelle de la taille médiane des feux")
+    st.subheader("3. Quelle est la tendance annuelle de la taille médiane des feux?")
     df_year = df.groupby('FIRE_YEAR')['FIRE_SIZE_HECT'].median().reset_index()
     fig4 = px.line(
         df_year,
         x='FIRE_YEAR',
         y='FIRE_SIZE_HECT',
+        title="Tendance annuelle de la taille médiane des feux",
         markers=True,
         line_shape='linear',
         color_discrete_sequence=['rgb(128,0,38)']
     )
     st_plotly_fast(fig4, height=400)
     st.markdown("""
-    ### 📌 Lecture du graphique
+    ###### 📌 Analyse : 
     - La taille médiane des feux reste globalement stable entre 0,2 et 0,4 ha sur la période 1992–2015.
     - Cela indique que la plupart des incendies sont de petite taille et sont rapidement maîtrisés.
     - Les variations selon les années peuvent s’expliquer par les conditions climatiques ou la gestion des feux.
     """)
 
     # 4️⃣ Distribution des causes par taille de feu
-    st.subheader("4. Distribution des causes par taille de feu")
+    df_sample = df.sample(20000)
+    st.subheader("4. Quelle est la distribution des causes par taille de feu?")
     fig5 = px.box(
-        df,
+        df_sample,
         x='STAT_CAUSE_DESCR',
         y='FIRE_SIZE_HECT',
         log_y=True,
+        title="Distribution de la taille des feux par cause",
         color='STAT_CAUSE_DESCR',
         color_discrete_sequence=px.colors.qualitative.T10
     )
     st_plotly_fast(fig5, height=450)
     st.markdown("""
-    ### 📌 Lecture du graphique
+    ###### 📌 Analyse : 
     - La majorité des feux sont de petite taille, indépendamment de la cause.
     - Certaines causes (foudre, brûlage de débris, diverses causes) peuvent générer des incendies exceptionnellement grands.
     - La distribution est très asymétrique : la plupart des feux restent petits, mais les outliers peuvent avoir un impact significatif.
