@@ -562,6 +562,7 @@ elif page == "Analyse géographique":
     st.plotly_chart(fig)
     max_state = df_state.loc[df_state["FIRE_SIZE_HECT"].idxmax(), "STATE"]
     max_value = df_state["FIRE_SIZE_HECT"].max()
+    st.markdown("""
     ###### 📌 Analyse : 
     - L'État le plus touché est L'Alaska avec 13 Millions d'hectares brûlés. 
     - Les autres États présentent des surfaces brûlées beaucoup plus faibles, ce qui montre la concentration des incendies.
