@@ -583,6 +583,7 @@ elif page == "Analyse géographique":
         color_discrete_map=c,
     )
     st.plotly_chart(fig)
+    st.markdown("""
     ###### 📌 Analyse : 
     - Chaque État est coloré selon la cause la plus fréquente des incendies. 
     - On peut identifier rapidement que la foudre et l'activité humaine (avec Debris burning) sont les causes principales.
