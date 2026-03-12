@@ -527,7 +527,7 @@ elif page == "Analyse géographique":
     st.write("## Analyse géographique des feux")
 
     # 1️⃣ Hectares brûlés par région
-    st.subheader("\n 1. Quelle sont les régions les plus touchées ?")
+    st.subheader("\n 1. Quelles sont les régions les plus touchées ?")
 
     df_zone = df.groupby("REGION", as_index=False)["FIRE_SIZE_HECT"].sum().sort_values("FIRE_SIZE_HECT", ascending=False)
     fig = px.bar(
