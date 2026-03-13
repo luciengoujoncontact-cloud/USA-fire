@@ -164,7 +164,7 @@ elif page == "Analyse météorologique":
     st.divider()
 
     # --- 1. TEMPÉRATURE ET HUMIDITÉ (PLUIE) ---
-    st.subheader("\n 1. Quels sont les impacts combinés de la chaleur et de l'humidité sur l'éclosion des feux ?")
+    st.subheader("\n 1. Quels sont les impacts combinés de la chaleur et de la pluie sur l'éclosion des feux ?")
     
     col_top1, col_top2 = st.columns([2, 1]) 
     cmap = plt.get_cmap('YlOrRd')
@@ -178,10 +178,10 @@ elif page == "Analyse météorologique":
         ax1.set_xlabel('Température Maximale (°C)')
         ax1.set_ylabel('Nombre d\'incendies')
 
-        # Axe 2 : Pluie (Indicateur d'humidité)
+        # Axe 2 : Pluie
         ax1_twin = ax1.twinx()
         sns.kdeplot(df_filtered['pluie_mm'], color='blue', fill=True, ax=ax1_twin, label='Précipitations (mm)')
-        ax1_twin.set_ylabel('Densité d\'absence d\'humidité (Pluie)')
+        ax1_twin.set_ylabel('Densité de pluie')
         
         # Légende unique
         lines_1, labels_1 = ax1.get_legend_handles_labels()
@@ -196,8 +196,8 @@ elif page == "Analyse météorologique":
         st.write("""
         ###### 📌 Analyse : 
         - **Le seuil critique :** On observe une explosion du nombre de feux dès que la température dépasse les **25°C**.
-        - **Le facteur humidité :** La courbe bleue montre que la densité d'incendies est maximale quand les précipitations sont à **0mm**. 
-        - **Conclusion :** Le stress hydrique de la végétation (basse humidité) combiné à une forte chaleur constitue le "cocktail explosif" idéal pour le départ d'un feu.
+        - **Le facteur de pluie :** La courbe bleue montre que la densité d'incendies est maximale quand les précipitations sont à **0mm**. 
+        - **Conclusion :** Le stress hydrique de la végétation (peu de pluie ) combiné à une forte chaleur constitue le "cocktail explosif" idéal pour le départ d'un feu.
         """)
 
     st.divider()
