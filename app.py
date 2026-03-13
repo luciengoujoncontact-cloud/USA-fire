@@ -380,7 +380,7 @@ elif page == "Analyse de sévérité":
     """)
 
     # --- Explication des classes de feux ---
-    st.markdown("#### 📌 Classement des feux par taille")
+    st.markdown("#### Classement des feux par taille")
     colA, colB = st.columns(2)
     with colA:
         st.markdown("""
