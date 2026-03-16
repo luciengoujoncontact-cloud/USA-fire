@@ -577,8 +577,8 @@ elif page == "Analyse temporelle":
     st.markdown("""
     ###### 📌 Analyse : 
     Les causes principales diffèrent suivant les saisons : 
-    - Au printemps : Déchets brulés (Debris Burning)
-    - En été : Orages (Lightning)
+    - Au printemps : Déchets brulés (Debris Burning) : cause liée à l'activité humaine
+    - En été : Orages (Lightning) :  cause d'origine naturelle
     \n """)
 
     st.warning("""
