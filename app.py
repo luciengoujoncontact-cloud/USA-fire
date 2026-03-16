@@ -285,7 +285,7 @@ elif page == "Analyse météorologique":
     - **Le vent, moteur de propagation :** Si le premier graphique montre que beaucoup de feux naissent par vent faible, le second révèle que les **incendies les plus vastes** (en sombre) surviennent lorsque le vent forcit.
     - **L'effet couloir :** Un vent soutenu (> 20-30 km/h) couplé à une forte température empêche l'extinction rapide et favorise les sautes de feu.
     """)
-# --- PAGE ANALYSE SEVERITE (ISMAIL) OPTIMISÉE ---
+
 elif page == "Analyse de sévérité":
     import plotly.io as pio
     import streamlit.components.v1 as components
@@ -329,7 +329,7 @@ elif page == "Analyse de sévérité":
         df.groupby("STAT_CAUSE_DESCR")["FIRE_SIZE_HECT"]
         .sum()
         .sort_values(ascending=False)
-        .head(3)
+        .head(5)
         .reset_index()
     )
 
