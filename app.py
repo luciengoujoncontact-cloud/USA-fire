@@ -329,7 +329,7 @@ elif page == "Analyse de sévérité":
         df.groupby("STAT_CAUSE_DESCR")["FIRE_SIZE_HECT"]
         .sum()
         .sort_values(ascending=False)
-        .head(5)
+        .head(3)
         .reset_index()
     )
 
