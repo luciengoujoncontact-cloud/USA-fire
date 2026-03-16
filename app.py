@@ -137,9 +137,9 @@ if page == "Accueil":
     with col_c2:
         st.subheader("📊 Notre travail")
         st.write("""
-        - Nous avons selectionné, nettoyé et transformé ces données pour les rendre exploitables.
-        - Initialement consitué de 39 colonnes caractérisant les feux, nous n'en avons selectionné que 21 pertinentes pour l'analyse.
-        - En effet certaines étaient redondantes entre elles, ou trop incomplètes pour être utiles à notre analyse.
+        - Nous avons nettoyé et transformé les données pour les rendre exploitables.
+        - Nous avons aussi épuré le dataset initial contenant 39 colonnes pour n'en garder que 21, pertinentes pour l'analyse.
+        - En effet certaines colonnes étaient redondantes entre elles ou étaient trop incomplètes pour être utiles à notre analyse.
         - Nous avons ensuite ajouté 3 colonnes contenant les données météorologiques (température, vitesse du vent et pluie) associées aux principaux Etats touchés par les feux.
         - Nous avons mené l'exploration suivant quatre axes : l'axe temporel, de sévérité, géographique et météorologique.
         """)
